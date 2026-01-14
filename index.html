@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SanTec Software | Inteligencia Artificial para Negocios</title>
+    <style>
+        :root {
+            --primary: #2563eb; /* Azul Tech */
+            --dark: #0f172a;    /* Fondo Oscuro */
+            --light: #f8fafc;   /* Texto Claro */
+            --accent: #38bdf8;  /* Celeste Brillante */
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+        }
+
+        /* Navegación */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 10%;
+            background: rgba(15, 23, 42, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--light);
+            text-decoration: none;
+        }
+        
+        .logo span { color: var(--accent); }
+
+        .btn-contact {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        
+        .btn-contact:hover { background-color: var(--accent); }
+
+        /* Hero Section */
+        header {
+            text-align: center;
+            padding: 8rem 2rem;
+            background: linear-gradient(to bottom, #0f172a, #1e293b);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+
+        /* Servicios */
+        .features {
+            padding: 5rem 10%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid #334155;
+            transition: transform 0.3s;
+        }
+
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        
+        .card h3 { color: var(--accent); margin-top: 0; }
+
+        /* Chat Widget Flotante (Simulación Visual) */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            z-index: 2000;
+            transition: 0.3s;
+        }
+
+        .chat-widget:hover { transform: scale(1.1); }
+        
+        .chat-icon { width: 30px; height: 30px; fill: white; }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid #1e293b;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">SanTec <span>Software</span></a>
+        <a href="https://wa.me/549XXXXXXXXXX" class="btn-contact">Hablar con un Humano</a>
+    </nav>
+
+    <header>
+        <h1>Automatizamos tu Negocio <br>con Inteligencia Artificial</h1>
+        <p class="subtitle">Deja que nuestros agentes virtuales atiendan a tus clientes, filtren interesados y cierren ventas las 24 horas. Ideal para Inmobiliarias y Constructoras.</p>
+        <a href="#demo" class="btn-contact">Ver Demo en Vivo 👇</a>
+    </header>
+
+    <section class="features" id="demo">
+        <div class="card">
+            <h3>🏠 Para Inmobiliarias</h3>
+            <p>Responde consultas de "Sigue disponible?", informa precios, requisitos y agenda visitas automáticamente sin intervención humana.</p>
+        </div>
+        <div class="card">
+            <h3>🏗️ Para Constructoras</h3>
+            <p>Presupuesta materiales al instante, maneja stock y toma pedidos por WhatsApp mientras tú te ocupas de la obra.</p>
+        </div>
+        <div class="card">
+            <h3>🚀 Vende 24/7</h3>
+            <p>Tu negocio nunca duerme. Captura clientes a las 2 AM o los domingos. Nuestro sistema guarda cada contacto interesado.</p>
+        </div>
+    </section>
+
+    <div class="chat-widget" onclick="alert('Aquí se abrirá tu Chatbot cuando conectemos el Backend!')">
+        <svg class="chat-icon" viewBox="0 0 24 24">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+        </svg>
+    </div>
+
+    <footer>
+        <p>© 2026 SanTec Software - San Lorenzo, Santa Fe.</p>
+    </footer>
+
+</body>
+</html>
