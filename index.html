@@ -13,7 +13,7 @@
         }
         
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             margin: 0;
             padding: 0;
             background-color: var(--dark);
@@ -32,6 +32,7 @@
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid #1e293b;
+            backdrop-filter: blur(10px);
         }
 
         .logo {
@@ -51,15 +52,16 @@
             text-decoration: none;
             font-weight: 600;
             transition: 0.3s;
+            white-space: nowrap;
         }
         
-        .btn-contact:hover { background-color: var(--accent); }
+        .btn-contact:hover { background-color: var(--accent); transform: translateY(-2px); }
 
         /* Hero Section */
         header {
             text-align: center;
             padding: 8rem 2rem;
-            background: linear-gradient(to bottom, #0f172a, #1e293b);
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
         }
 
         h1 {
@@ -68,6 +70,7 @@
             background: linear-gradient(to right, #fff, #38bdf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            font-weight: 800;
         }
 
         p.subtitle {
@@ -83,6 +86,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            background-color: #0f172a;
         }
 
         .card {
@@ -90,12 +94,16 @@
             padding: 2rem;
             border-radius: 1rem;
             border: 1px solid #334155;
-            transition: transform 0.3s;
+            transition: all 0.3s ease;
         }
 
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .card:hover { 
+            transform: translateY(-5px); 
+            border-color: var(--accent); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
         
-        .card h3 { color: var(--accent); margin-top: 0; }
+        .card h3 { color: var(--accent); margin-top: 0; font-size: 1.5rem; }
 
         /* Chat Widget Flotante (Simulación Visual) */
         .chat-widget {
@@ -113,28 +121,64 @@
             box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
             z-index: 2000;
             transition: 0.3s;
+            animation: pulse 2s infinite;
         }
 
-        .chat-widget:hover { transform: scale(1.1); }
-        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+
+        .chat-widget:hover { transform: scale(1.1); animation: none; }
         .chat-icon { width: 30px; height: 30px; fill: white; }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 2rem;
+            padding: 3rem;
             border-top: 1px solid #1e293b;
             color: #64748b;
             font-size: 0.9rem;
+            background-color: #0b1120;
         }
 
+        /* --- CORRECCIÓN PARA CELULARES (RESPONSIVE) --- */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem; /* Reduce el tamaño del título */
+                line-height: 1.2;
+                word-wrap: break-word; /* Evita cortes feos */
+            }
+            
+            header {
+                padding: 4rem 1.5rem; /* Menos espacio arriba y abajo */
+            }
+
+            p.subtitle {
+                font-size: 1rem;
+            }
+
+            nav {
+                padding: 1rem 5%; /* Navegación más compacta */
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+            
+            .btn-contact {
+                font-size: 0.9rem;
+                padding: 0.4rem 1rem;
+            }
+        }
     </style>
 </head>
 <body>
 
     <nav>
         <a href="#" class="logo">SanTec <span>Software</span></a>
-        <a href="https://wa.me/549XXXXXXXXXX" class="btn-contact">Hablar con un Humano</a>
+        <a href="https://wa.me/5493410000000" class="btn-contact">Hablar con un Humano</a>
     </nav>
 
     <header>
@@ -146,19 +190,19 @@
     <section class="features" id="demo">
         <div class="card">
             <h3>🏠 Para Inmobiliarias</h3>
-            <p>Responde consultas de "Sigue disponible?", informa precios, requisitos y agenda visitas automáticamente sin intervención humana.</p>
+            <p>Responde consultas de "¿Sigue disponible?", informa precios, requisitos y agenda visitas automáticamente sin intervención humana.</p>
         </div>
         <div class="card">
             <h3>🏗️ Para Constructoras</h3>
-            <p>Presupuesta materiales al instante, maneja stock y toma pedidos por WhatsApp mientras tú te ocupas de la obra.</p>
+            <p>Presupuesta materiales al instante, maneja stock y toma pedidos por WhatsApp y Web mientras tú te ocupas de la obra.</p>
         </div>
         <div class="card">
             <h3>🚀 Vende 24/7</h3>
-            <p>Tu negocio nunca duerme. Captura clientes a las 2 AM o los domingos. Nuestro sistema guarda cada contacto interesado.</p>
+            <p>Tu negocio nunca duerme. Captura clientes a las 2 AM o los domingos. Nuestro sistema guarda cada contacto interesado en tu base de datos.</p>
         </div>
     </section>
 
-    <div class="chat-widget" onclick="alert('Aquí se abrirá tu Chatbot cuando conectemos el Backend!')">
+    <div class="chat-widget" onclick="alert('¡Aquí se abrirá tu Chatbot cuando conectemos el Backend en la nube!')">
         <svg class="chat-icon" viewBox="0 0 24 24">
             <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
         </svg>
@@ -166,6 +210,7 @@
 
     <footer>
         <p>© 2026 SanTec Software - San Lorenzo, Santa Fe.</p>
+        <p style="font-size: 0.8rem; opacity: 0.5;">Desarrollado con Tecnología Gemini AI & Python</p>
     </footer>
 
 </body>
