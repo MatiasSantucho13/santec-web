@@ -6,10 +6,10 @@
     <title>SanTec Software | Inteligencia Artificial para Negocios</title>
     <style>
         :root {
-            --primary: #2563eb; /* Azul Tech */
-            --dark: #0f172a;    /* Fondo Oscuro */
-            --light: #f8fafc;   /* Texto Claro */
-            --accent: #38bdf8;  /* Celeste Brillante */
+            --primary: #2563eb; 
+            --dark: #0f172a;    
+            --light: #f8fafc;   
+            --accent: #38bdf8;  
         }
         
         body {
@@ -21,7 +21,6 @@
             line-height: 1.6;
         }
 
-        /* Navegación */
         nav {
             display: flex;
             justify-content: space-between;
@@ -41,7 +40,6 @@
             color: var(--light);
             text-decoration: none;
         }
-        
         .logo span { color: var(--accent); }
 
         .btn-contact {
@@ -55,10 +53,8 @@
             white-space: nowrap;
             cursor: pointer;
         }
-        
         .btn-contact:hover { background-color: var(--accent); transform: translateY(-2px); }
 
-        /* Hero Section */
         header {
             text-align: center;
             padding: 8rem 2rem;
@@ -81,7 +77,6 @@
             margin: 0 auto 2rem auto;
         }
 
-        /* Servicios */
         .features {
             padding: 5rem 10%;
             display: grid;
@@ -106,7 +101,6 @@
         
         .card h3 { color: var(--accent); margin-top: 0; font-size: 1.5rem; }
 
-        /* Chat Widget Flotante */
         .chat-widget {
             position: fixed;
             bottom: 20px;
@@ -134,9 +128,8 @@
         .chat-widget:hover { transform: scale(1.1); animation: none; }
         .chat-icon { width: 30px; height: 30px; fill: white; }
 
-        /* Ventana del chat */
         .chat-window {
-            display: none; /* Oculto por defecto */
+            display: none; 
             position: fixed;
             bottom: 90px;
             right: 20px;
@@ -218,7 +211,6 @@
             cursor: pointer;
         }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 3rem;
@@ -228,7 +220,6 @@
             background-color: #0b1120;
         }
 
-        /* --- CORRECCIÓN PARA CELULARES (RESPONSIVE) --- */
         @media (max-width: 768px) {
             h1 { font-size: 2.2rem; line-height: 1.2; word-wrap: break-word; }
             header { padding: 4rem 1.5rem; }
@@ -291,7 +282,6 @@
 
     <footer>
         <p>© 2026 SanTec Software - San Lorenzo, Santa Fe.</p>
-        <p style="font-size: 0.8rem; opacity: 0.5;"></p>
     </footer>
 
     <script>
@@ -302,13 +292,9 @@
         const userInput = document.getElementById('user-input');
         const messagesContainer = document.getElementById('chat-messages');
 
-        // URL DE TU CEREBRO EN USA 🇺🇸
         const API_URL = "https://santec-api-1.onrender.com/chat";
-        
-        // MEMORIA
         let chatHistory = [];
 
-        // Abrir/Cerrar
         chatBtn.addEventListener('click', () => {
             chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
         });
@@ -317,17 +303,18 @@
             chatWindow.style.display = 'none';
         });
 
-        // Función para enviar mensaje
         async function sendMessage() {
             const text = userInput.value.trim();
             if (!text) return;
 
-            // 1. Mostrar mensaje del usuario
-            addMessage(text, 'user');
+            // 1. Mostrar TU mensaje (Derecha)
+            // No guardamos este elemento porque no lo vamos a modificar
+            addMessage(text, 'user'); 
             userInput.value = '';
 
-            // 2. Mostrar "Escribiendo..."
-            const loadingId = addMessage("Thinking...", 'bot');
+            // 2. Mostrar "Pensando..." (Izquierda)
+            // IMPORTANTE: Guardamos la BURBUJA entera en una variable, no el ID.
+            const botBubble = addMessage("Thinking...", 'bot');
 
             try {
                 // 3. ENVIAR A RENDER
@@ -342,35 +329,31 @@
 
                 const data = await response.json();
                 
-                // 4. Reemplazar "Pensando..." por la respuesta real
-                const loadingBubble = document.getElementById(loadingId);
-                if (loadingBubble) {
-                    loadingBubble.innerText = data.response;
-                }
+                // 4. ACTUALIZAR LA BURBUJA QUE GUARDAMOS ANTES
+                // Como usamos la variable 'botBubble', es IMPOSIBLE que se equivoque de mensaje.
+                botBubble.innerText = data.response;
 
                 // 5. Guardar en memoria
                 chatHistory.push({ role: "user", parts: [{ text: text }] });
                 chatHistory.push({ role: "model", parts: [{ text: data.response }] });
 
             } catch (error) {
-                const loadingBubble = document.getElementById(loadingId);
-                if (loadingBubble) loadingBubble.innerText = "Error de conexión. Render está dormido.";
+                botBubble.innerText = "Error de conexión. Render está dormido.";
                 console.error(error);
             }
         }
 
+        // Esta función ahora devuelve EL ELEMENTO HTML (div), no un ID.
+        // Así es mucho más seguro.
         function addMessage(text, sender) {
             const div = document.createElement('div');
             div.classList.add('message', sender);
             div.innerText = text;
-            const id = 'msg-' + Date.now();
-            div.id = id;
             messagesContainer.appendChild(div);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            return id;
+            return div; // <--- Devuelve la caja entera
         }
 
-        // Enviar con botón o Enter
         sendBtn.addEventListener('click', sendMessage);
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
