@@ -202,12 +202,185 @@
         </div>
     </section>
 
-    <div class="chat-widget" onclick="alert('¡Aquí se abrirá tu Chatbot cuando conectemos el Backend en la nube!')">
-        <svg class="chat-icon" viewBox="0 0 24 24">
-            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
-        </svg>
-    </div>
+<div class="chat-widget" id="chat-btn">
+    <svg class="chat-icon" viewBox="0 0 24 24">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+    </svg>
+</div>
 
+<div class="chat-window" id="chat-window">
+    <div class="chat-header">
+        <span>Asistente SanTec 🤖</span>
+        <button id="close-chat">✖</button>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+        <div class="message bot">¡Hola! Soy la IA de SanTec. ¿En qué puedo ayudarte hoy?</div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="user-input" placeholder="Escribí tu consulta..." />
+        <button id="send-btn">➤</button>
+    </div>
+</div>
+
+<style>
+    /* Ventana del chat */
+    .chat-window {
+        display: none; /* Oculto por defecto */
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 350px;
+        height: 450px;
+        background: #1e293b;
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+        border: 1px solid #334155;
+        flex-direction: column;
+        z-index: 2001;
+        overflow: hidden;
+    }
+
+    .chat-header {
+        background: var(--primary);
+        padding: 15px;
+        color: white;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .chat-header button {
+        background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem;
+    }
+
+    .chat-messages {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .message {
+        padding: 10px 15px;
+        border-radius: 10px;
+        max-width: 80%;
+        font-size: 0.9rem;
+    }
+
+    .message.bot {
+        background: #334155;
+        color: #e2e8f0;
+        align-self: flex-start;
+    }
+
+    .message.user {
+        background: var(--primary);
+        color: white;
+        align-self: flex-end;
+    }
+
+    .chat-input-area {
+        padding: 15px;
+        background: #0f172a;
+        display: flex;
+        gap: 10px;
+    }
+
+    .chat-input-area input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #334155;
+        background: #1e293b;
+        color: white;
+    }
+
+    .chat-input-area button {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 0 15px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    /* Para celulares */
+    @media (max-width: 480px) {
+        .chat-window { width: 90%; right: 5%; bottom: 80px; height: 60vh; }
+    }
+</style>
+
+<script>
+    const chatBtn = document.getElementById('chat-btn');
+    const chatWindow = document.getElementById('chat-window');
+    const closeChat = document.getElementById('close-chat');
+    const sendBtn = document.getElementById('send-btn');
+    const userInput = document.getElementById('user-input');
+    const messagesContainer = document.getElementById('chat-messages');
+
+    // URL DE TU CEREBRO EN RENDER (Ya puesta)
+    const API_URL = "https://santec-api.onrender.com/chat";
+
+    // Abrir/Cerrar
+    chatBtn.addEventListener('click', () => {
+        chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    closeChat.addEventListener('click', () => {
+        chatWindow.style.display = 'none';
+    });
+
+    // Función para enviar mensaje
+    async function sendMessage() {
+        const text = userInput.value.trim();
+        if (!text) return;
+
+        // 1. Mostrar mensaje del usuario
+        addMessage(text, 'user');
+        userInput.value = '';
+
+        // 2. Mostrar "Escribiendo..." (Opcional visual)
+        const loadingId = addMessage("Pensando...", 'bot');
+
+        try {
+            // 3. ENVIAR A RENDER
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: text })
+            });
+
+            const data = await response.json();
+            
+            // 4. Reemplazar "Pensando..." por la respuesta real
+            document.getElementById(loadingId).innerText = data.response;
+
+        } catch (error) {
+            document.getElementById(loadingId).innerText = "Error: El cerebro está dormido (Render tarda 1 min en despertar si es gratis). Probá de nuevo.";
+            console.error(error);
+        }
+    }
+
+    function addMessage(text, sender) {
+        const div = document.createElement('div');
+        div.classList.add('message', sender);
+        div.innerText = text;
+        const id = 'msg-' + Date.now();
+        div.id = id;
+        messagesContainer.appendChild(div);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        return id;
+    }
+
+    // Enviar con botón o Enter
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+</script>
     <footer>
         <p>© 2026 SanTec Software - San Lorenzo, Santa Fe.</p>
         <p style="font-size: 0.8rem; opacity: 0.5;"></p>
